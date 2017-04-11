@@ -94,20 +94,20 @@ namespace W_F_A
         {
             CheckEnterWords();
         }
-        private void button3_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog save = new SaveFileDialog();
-            save.Filter = "Text documents (.txt)|*.txt";
+        //private void button3_Click(object sender, EventArgs e)
+        //{
+        //    SaveFileDialog save = new SaveFileDialog();
+        //    save.Filter = "Text documents (.txt)|*.txt";
 
-            if (save.ShowDialog() == DialogResult.OK)
-            {
-                StreamWriter w = new StreamWriter(save.FileName);
+        //    if (save.ShowDialog() == DialogResult.OK)
+        //    {
+        //        StreamWriter w = new StreamWriter(save.FileName);
 
-                foreach (var item in listBox1.Items)
-                    w.WriteLine(item.ToString());
+        //        foreach (var item in listBox1.Items)
+        //            w.WriteLine(item.ToString());
 
-                w.Close();
-            }
-        }
+        //        w.Close();
+        //    }
+        //}
     }
 }
