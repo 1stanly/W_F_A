@@ -8,15 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace W_F_A
 {
     public partial class Form1 : Form
     {
-        Library lib = new Library();
-        string tb;
-        string strMassAuthors;
-        string strMassArticle;
+        SaveFile saveFile = new SaveFile();
+        int numberJournalAndLiterature=5;
+        int numberNewspaperLiterature = 3;
+        string strAll=" ";
+
+        public string tb;
         public Form1()
         {
             InitializeComponent();
@@ -27,87 +30,87 @@ namespace W_F_A
         }
         public void ShowLibrary()
         {
-            int x = 0;
-            int y = 0;
-            int z = 0;
-            tb = textBox1.Text;
-            foreach (BookTemplate j in Library.listBooks)
+            listBox1.Items.Add("BOOKS");
+            for(int i = 0; i < numberJournalAndLiterature; i++)
             {
-                foreach (string h in Library.arrAuthors[x])
-                {
-                    strMassAuthors += h + " ";
-                }
-                listBox1.Items.Add("book - " + j.Book + ";  year - " + j.Year + ";  number - " + j.Number + ";  author - " + strMassAuthors);
-                strMassAuthors = "";
-                x++;
+                listBox1.Items.Add("name - " + Library.bookNames[i] + "***" + "book years - " + Library.bookYears[i] + "***" + "book authors - " + Library.bookAuthors[i] + "***" + "book number - " + Library.bookNumber[i]);
             }
             listBox1.Items.Add("");
-            foreach (JournalTemplate j in Library.listJournals)
+
+            listBox1.Items.Add("JOURNALS");
+            for(int i=0;i< numberJournalAndLiterature; i++)
             {
-                foreach (string h in Library.arrAuthors[x])
-                {
-                    strMassAuthors += h + " ";
-                }
-                foreach (string h in Library.arrArticles[y])
-                {
-                    strMassArticle += h + " ";
-                }
-                listBox1.Items.Add("journal - " + j.Journal + "; number edition - " + j.NumberEdition + "; number of pages - " + j.NumberOfPages + "; article - " + strMassArticle + "; author - " + strMassAuthors);
-                strMassAuthors = "";
-                strMassArticle = "";
-                x++;
-                y++;
+                listBox1.Items.Add("name - " + Library.ListJournalNames[i]+ "***" + "numberEdition - "+Library.ListJournalNumberEdition[i]+"***"+"article - "+Library.listJournalArticles[i].Name+ "***" + "author - "+Library.listJournalArticles[i].Author+ "***"+"numberOfPages - " +Library.ListJournalNumberOfPages[i]);             
             }
             listBox1.Items.Add("");
-            foreach (NewspaperTemplate j in Library.listNewspapers)
+            listBox1.Items.Add("NEWSPAPERS");
+            for (int i = 0; i < numberNewspaperLiterature; i++)
             {
-                foreach (string h in Library.arrAuthors[x])
-                {
-                    strMassAuthors += h + " ";
-                }
-                foreach (string h in Library.arrArticles[z])
-                {
-                    strMassArticle += h + " ";
-                }
-                listBox1.Items.Add("nuwspaper - " + j.Newspaper + "; rating - " + j.Rating + "; number of pages - " + j.NumberOfPages + "; article - " + strMassArticle + "; author - " + strMassAuthors);
-                strMassAuthors = "";
-                strMassArticle = "";
-                x++;
-                y++;
-                z++;
+                listBox1.Items.Add("name - " + Library.ListNewspaperNames[i] + "***" + "numberEdition - " + Library.ListNewspaperRating[i] + "***" + "article - " + Library.listNewspaperArticles[i].Name + "***" + "author - " + Library.listNewspaperArticles[i].Author + "***" + "numberOfPages - " + Library.ListNewspaperNumberOfPages[i]);
             }
         }
         public void CheckEnterWords()
         {
-            for (int i = 0; i < Library.arrAuthors.Count; i++)
+            tb = textBox1.Text;
+            for (int i = 0; i < Library.bookAuthors.Count; i++)
             {
-                for (int j = 0; j < Library.arrAuthors[i].Count; j++)
+                if (Library.bookAuthors[i].Contains(tb))
                 {
-                    if (Library.arrAuthors[i][j] == textBox1.Text)
-                    {
-                        listBox2.Items.Add(Library.listBooks[i].Book);
-                    }
+                    strAll += Library.bookNames[i]+" ";
+                }
+            }   
+            for (int i = 0; i < Library.listJournalArticles.Count; i++)
+            {
+                if (Library.listJournalArticles[i].Author.Contains(tb))
+                {
+                    strAll += Library.ListJournalNames[i]+ " ";                   
                 }
             }
+            for (int i = 0; i < Library.listNewspaperArticles.Count; i++)
+            {
+                if (Library.listNewspaperArticles[i].Author.Contains(tb))
+                {
+                    strAll += " " + Library.ListNewspaperNames[i];
+                }
+            }
+            if (strAll != " ")
+            {
+                listBox2.Items.Add(strAll);
+            }
+            else
+            {
+                listBox2.Items.Add("Author not find");
+            }
+            strAll = " ";
         }
         private void button2_Click(object sender, EventArgs e)
         {
             CheckEnterWords();
         }
-        //private void button3_Click(object sender, EventArgs e)
-        //{
-        //    SaveFileDialog save = new SaveFileDialog();
-        //    save.Filter = "Text documents (.txt)|*.txt";
+        private void button3_Click(object sender, EventArgs e)
+        {
+            saveFile.Save(listBox1);
+        }
 
-        //    if (save.ShowDialog() == DialogResult.OK)
-        //    {
-        //        StreamWriter w = new StreamWriter(save.FileName);
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ////Создание открытого подключения
+            //string connectionStr = @"Data Source=Alexey-ПК\SQLEXPRESS;Initial Catalog=Test;Integrated Security=SSPI;";
+            //SqlConnection dbConnection = new SqlConnection(connectionStr);
+            //dbConnection.Open();
 
-        //        foreach (var item in listBox1.Items)
-        //            w.WriteLine(item.ToString());
+            ////Создание обьекта команды SQL
+            //string sqlQuery = "INSERT INTO Friends (name, age,job) VALUES ('Имя',18,'Vriver')"; //-добавляем в табличку baza строку с значением поля fio равным 'Имя', а поля tel равным 'Телефон'
+            //using (SqlCommand command = new SqlCommand(sqlQuery, dbConnection))
+            //{
+            //    //Отправляем команду
+            //    command.ExecuteNonQuery();
+            //    this.friendsTableAdapter.Fill(this.testDataSet.Friends);
 
-        //        w.Close();
-        //    }
-        //}
+            //}
+
+            ////Закрываем соединение с базой данных
+
+        }
     }
 }

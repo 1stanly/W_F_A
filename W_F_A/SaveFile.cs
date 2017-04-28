@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace W_F_A
 {
-   public partial class SaveFile:Form
+    public class SaveFile 
     {
-        public void Save()
+        public void Save(ListBox f1)
         {
             SaveFileDialog save = new SaveFileDialog();
             save.Filter = "Text documents (.txt)|*.txt";
@@ -22,11 +22,11 @@ namespace W_F_A
             {
                 StreamWriter w = new StreamWriter(save.FileName);
 
-                foreach (var item in listBox1.Items)
+                foreach (var item in f1.Items)
                     w.WriteLine(item.ToString());
 
                 w.Close();
             }
         }
-}
+    }
 }

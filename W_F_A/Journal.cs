@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace W_F_A
 {
-   public  class JournalTemplate
+    public class Journal
     {
-        public string Journal { get; set; }
+        public string Name { get; set; }
         public string NumberEdition { get; set; }
+        public Article Article { get; set; }
         public string NumberOfPages { get; set; }
-        public string Article { get; set; }
-        public string Author { get; set; }
     }
 }

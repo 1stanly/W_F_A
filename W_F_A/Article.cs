@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace W_F_A
 {
-   public  class BookTemplate
+   public  class Article
     {
+        public string Name { get; set; }
         public string Author { get; set; }
-        public string Book { get; set; }
-        public string Year { get; set; }
-        public string Number { get; set; }
     }
 }

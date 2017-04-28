@@ -15,12 +15,8 @@ namespace W_F_A
         static void Main()
         {
             Library lib = new Library();
-            lib.CreateMassAuthors();
-            lib.CreateMassArticles();
-
-            lib.CreateListBooks();
-            lib.CreateListJournals();
-            lib.CreateListNewspapers();
+            lib.CreateJournalArticles();
+            lib.CreateNewspaperArticles();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
